@@ -1,22 +1,20 @@
 import axios from "axios";
 import { BASE_URL } from "../constants/api";
 
-const urlInstance = axios.create({
+const axiosInstance = axios.create({
   baseURL: "http://localhost:3500",
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
 });
 
-export const uploadFile = async (uploadedFile: File) => {
-  const formData = new FormData();
-  formData.append("image", uploadedFile); // <-- must match backend field name
+export const uploadFile = async (formData: any) => {
+  const res = await axiosInstance.post("/upload", formData);
 
-  const res = await urlInstance.post("/upload", formData);
-
-  console.log(uploadFile instanceof File)
-
-  return res.data;
+  return res;
 };
 
-export const getFile = async () => {
-  const res = await urlInstance.get("/files");
+export const getFiles = async () => {
+  const res = await axiosInstance.get("/files");
   return res;
 };

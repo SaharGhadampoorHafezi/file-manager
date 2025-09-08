@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useMutation } from "@tanstack/react-query";
@@ -19,17 +19,10 @@ export default function UploadFileForm() {
   });
 
   const handleChange = (info: any) => {
-    console.log("Upload info:", info);
+    const formData = new FormData();
 
-    // Try both ways of getting the file
-    const file = info.file?.originFileObj || info.fileList?.[0]?.originFileObj;
-
-    if (file) {
-      console.log("Uploading:", file.name);
-      mutate(file.name);
-    } else {
-      console.warn("No file found in info:", info);
-    }
+    formData.append("image", info.file);
+    mutate(formData);
   };
 
   return (
